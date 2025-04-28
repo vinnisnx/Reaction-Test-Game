@@ -38,6 +38,11 @@ mainBtn.addEventListener('pointerdown', () => {
     userInput.value = '';
 });
 
+userInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        userInput.blur();
+    }
+});
 
 stopBtn.addEventListener('pointerdown', () => {
     if (!awaitingForResume) {
