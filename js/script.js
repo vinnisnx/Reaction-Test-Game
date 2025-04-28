@@ -96,6 +96,11 @@ async function gameStart(rounds) {
         }
     }
 
+    if (averagetime < bestAveragetime) {
+        bestAveragetime = averagetime;
+        best.textContent = average.textContent;
+    }
+
 
     playBtn.classList.add('hidden');
     mainBtn.classList.remove('hidden');
