@@ -23,6 +23,9 @@ let bestTime = Infinity;
 let averagetime = 0;
 let bestAveragetime = Infinity;
 let paused = false;
+let timeout = false;
+let awaitingForResume = false;
+let awaitingForPause = false;
 
 mainBtn.addEventListener('pointerdown', () => {
     const inputValue = userInput.value;
@@ -37,19 +40,38 @@ mainBtn.addEventListener('pointerdown', () => {
 
 
 stopBtn.addEventListener('pointerdown', () => {
-    paused = true;
-    timer.textContent = "00:000";
-    playBtn.classList.add('hidden');
-    resumeBtn.classList.remove('hidden');
-    stopBtn.classList.add('hidden');
+    if (!awaitingForResume) {
+        paused = true;
+        timer.textContent = "00:000";
+        playBtn.classList.add('hidden');
+        resumeBtn.classList.remove('hidden');
+        stopBtn.classList.add('hidden');
+    } 
 });
 
 resumeBtn.addEventListener('pointerdown', () => {
+    if (!timeout) {
+        paused = false;
+        playBtn.classList.remove('hidden');
+        resumeBtn.classList.add('hidden');
+        stopBtn.classList.remove('hidden');
+    } else {
+        awaitingForResume = true;
+        resumeBtn.classList.add('btn-waiting');
+        resumeBtn.textContent = "Resuming"
+    }
+});
+
+function resuming() {
+    awaitingForResume = false;
     paused = false;
     playBtn.classList.remove('hidden');
     resumeBtn.classList.add('hidden');
+    resumeBtn.classList.remove('btn-waiting');
+    resumeBtn.classList.add('btn-start');
+    resumeBtn.textContent = "Resume"
     stopBtn.classList.remove('hidden');
-});
+}
 
 function waitUntilResumed() {
     return new Promise(resolve => {
@@ -113,9 +135,12 @@ async function gameStart(rounds) {
 function handleRound() {
     return new Promise(resolve => {
         if (paused) { 
+            if (awaitingForResume) resuming();
             resolve(0);
             return;
         }
+        console.log(`timeout started`);
+        timeout = true;
         playBtn.classList.add('btn-waiting');
         playBtn.textContent = "Wait"
         let randomTime = Math.floor(Math.random() * 2000) + 2000;
@@ -123,7 +148,9 @@ function handleRound() {
 
         setTimeout(() => {
             console.log(`timeout ended`);
+            timeout = false;
             if (paused) { 
+                if (awaitingForResume) resuming();
                 resolve(0); 
                 return;
             }
