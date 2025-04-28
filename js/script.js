@@ -24,7 +24,7 @@ let averagetime = 0;
 let bestAveragetime = Infinity;
 let paused = false;
 
-mainBtn.addEventListener('click', () => {
+mainBtn.addEventListener('pointerdown', () => {
     const inputValue = userInput.value;
     if (!isNaN(inputValue) && inputValue > 0) {
         rounds = parseInt(inputValue);
@@ -36,7 +36,7 @@ mainBtn.addEventListener('click', () => {
 });
 
 
-stopBtn.addEventListener('click', () => {
+stopBtn.addEventListener('pointerdown', () => {
     paused = true;
     timer.textContent = "00:000";
     playBtn.classList.add('hidden');
@@ -44,7 +44,7 @@ stopBtn.addEventListener('click', () => {
     stopBtn.classList.add('hidden');
 });
 
-resumeBtn.addEventListener('click', () => {
+resumeBtn.addEventListener('pointerdown', () => {
     paused = false;
     playBtn.classList.remove('hidden');
     resumeBtn.classList.add('hidden');
@@ -139,7 +139,7 @@ function handleRound() {
                 totalTime = updateTimer(startTime);
             }, 1);
 
-            playBtn.addEventListener('click', function onClick() {
+            playBtn.addEventListener('pointerdown', function onClick() {
                 let seconds = totalTime / 1000;
                 let formattedSeconds = (seconds < 10 ? '0' : '') + seconds.toFixed(3);
 

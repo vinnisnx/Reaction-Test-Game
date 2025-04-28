@@ -269,6 +269,7 @@
         width: 20vh;
         font-size: 3vh;
         margin-bottom: 20vh;
+        touch-action: manipulation;
     }
 
     .stop-btn {
@@ -276,6 +277,7 @@
         width: 10vh;
         top: 80%;  
         font-size: 1.5vh;
+        touch-action: manipulation;
     }
 
     .rounds-box {
